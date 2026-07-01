@@ -1,0 +1,91 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: jamk1
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: trail-cam
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: trail-cam-app
+
+provider:
+  name: aws
+  runtime: nodejs24.x
+  region: us-east-1
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:ListBucket
+          Resource:
+            - arn:aws:s3:::trail-cam-app
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+            - s3:PutObject
+          Resource:
+            - arn:aws:s3:::trail-cam-app/*
+        - Effect: Allow
+          Action:
+            - rekognition:DetectLabels
+          Resource: '*'
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:GetItem
+            - dynamodb:Scan
+          Resource:
+            - arn:aws:dynamodb:us-east-1:*:table/trailcam-images
+  httpApi:
+    cors:
+      allowedOrigins:
+        - http://localhost:4200
+      allowedHeaders:
+        - Content-Type
+      allowedMethods:
+        - GET
+        - POST
+      allowCredentials: false
+
+functions:
+  uploadEmail:
+    handler: functions/uploadEmail.handler
+    events:
+      - httpApi:
+          path: /upload
+          method: post
+  getImages:
+    handler: functions/getImages.handler
+    events:
+      - httpApi:
+          path: /images
+          method: get
+  imageAnalyzer:
+    handler: functions/imageRekognition.handler
+    events:
+      - s3:
+          bucket: trail-cam-app
+          event: s3:ObjectCreated:*
+          existing: true
+          rules:
+            - prefix: trailcam/
+resources:
+  Resources:
+    TrailCamTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: trailcam-images
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: key
+            AttributeType: S
+        KeySchema:
+          - AttributeName: key
+            KeyType: HASH
+
+plugins:
+  - serverless-prune-plugin
+
+custom:
+  prune:
+    automatic: true # cleans up automatically after deploy
+    number: 3

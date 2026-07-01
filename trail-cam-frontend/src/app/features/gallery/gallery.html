@@ -1,0 +1,29 @@
+<div class="gallery">
+  <h2>Trail Cam Images</h2>
+
+  <div class="gallery-grid">
+    @for (image of imageStore.images(); track image.key) {
+    <div class="card" (click)="open(image)">
+      <img [src]="image.url" [alt]="image.key">
+    </div>
+    }
+  </div>
+
+  <h2>Animal Images</h2>
+
+  <div class="gallery-grid">
+    @for (image of imageStore.animals(); track image.key) {
+    <div class="card" (click)="open(image)">
+      <img [src]="image.url" [alt]="image.key">
+    </div>
+    }
+  </div>
+
+  @if (selectedImage) {
+  <div class="modal-backdrop" (click)="close()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <img [src]="selectedImage.url" />
+    </div>
+  </div>
+  }
+</div>
