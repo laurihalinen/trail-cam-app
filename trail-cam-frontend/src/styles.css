@@ -1,1 +1,99 @@
 /* You can add global styles to this file, and also import other style files */
+/* =========================
+   GLOBAL DARK THEME
+========================= */
+
+:root {
+  --blue: #0f2862;
+  --green: #0b3d2e;
+  --purple: #091f36;
+  --greyblue: #4f5f76;
+
+  --bg: #070d18;
+  --panel: #0b1626;
+  --panel-2: #0f1f36;
+
+  --text: #e6edf7;
+  --muted: #9aa7b8;
+
+  --border: rgba(79, 95, 118, 0.25);
+}
+
+/* =========================
+   BASE RESET
+========================= */
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top, #0b1a33 0%, #070d18 50%, #050812 100%);
+  color: var(--text);
+}
+
+app-root {
+  display: block;
+  min-height: 100vh;
+  width: 100%;
+  background: transparent;
+}
+
+/* =========================
+   GLOBAL TEXT
+========================= */
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: var(--text);
+  margin: 0;
+}
+
+p {
+  color: var(--muted);
+}
+
+/* =========================
+   GLOBAL LINKS
+========================= */
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   GLOBAL BUTTON DEFAULT
+========================= */
+
+button {
+  font-family: inherit;
+}
+
+/* =========================
+   SCROLLBAR (dark UI polish)
+========================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}

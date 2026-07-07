@@ -1,29 +1,81 @@
-<div class="gallery">
-  <h2>Trail Cam Images</h2>
+<div class="container py-3">
+  <div class="content">
 
-  <div class="gallery-grid">
-    @for (image of imageStore.images(); track image.key) {
-    <div class="card" (click)="open(image)">
-      <img [src]="image.url" [alt]="image.key">
+    <h2 class="mb-3">Trail Cam Feed</h2>
+    <div class="toolbar">
+
+      <!-- FILTER BUTTON GROUP -->
+      <div class="filter-group">
+
+        <button class="filter-btn" [class.active]="imageStore.filter() === 'all'" (click)="setFilter('all')">
+          All
+        </button>
+
+        <button class="filter-btn animal" [class.active]="imageStore.filter() === 'animals'"
+          (click)="setFilter('animals')">
+          Animals
+        </button>
+
+      </div>
+
+      <!-- SEARCH -->
+      <div class="search-wrapper">
+
+        <input type="text" class="search-input" placeholder="Search labels..."
+          (input)="setSearch($event.target.value)" />
+
+
+
+      </div>
+
     </div>
+  </div>
+  <!-- FIXED GRID -->
+  <div class="grid">
+
+    @for (image of imageStore.filteredImages(); track image.key) {
+
+    <div class="grid-item" (click)="open(image)">
+
+      <img [src]="image.url" />
+
+      @if (image.hasAnimal) {
+      <div class="badge">Animal</div>
+      }
+
+      <div class="overlay">
+        {{ formatDate(image.createdAt) }}
+      </div>
+
+    </div>
+
     }
+
   </div>
 
-  <h2>Animal Images</h2>
-
-  <div class="gallery-grid">
-    @for (image of imageStore.animals(); track image.key) {
-    <div class="card" (click)="open(image)">
-      <img [src]="image.url" [alt]="image.key">
-    </div>
-    }
-  </div>
-
+  <!-- MODAL -->
   @if (selectedImage) {
   <div class="modal-backdrop" (click)="close()">
-    <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+
       <img [src]="selectedImage.url" />
+      <!-- DATE -->
+      <div class="modal-date">
+        {{ formatDate(selectedImage.createdAt) }}
+      </div>
+      <!-- LABELS -->
+      <h3 class="labels-title">Rekognition labels:</h3>
+      <div class="labels">
+
+        @for (label of selectedImage.labels; track label) {
+        <span class="label-chip">{{ label }}</span>
+        }
+      </div>
+
+
+
     </div>
   </div>
   }
+
 </div>
