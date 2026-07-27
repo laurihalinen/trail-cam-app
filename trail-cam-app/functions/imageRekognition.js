@@ -4,8 +4,8 @@ const {
 } = require('@aws-sdk/client-rekognition');
 
 const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3');
-
-const { DynamoDBClient, PutItemCommand } = require('@aws-sdk/client-dynamodb');
+const { PutCommand } = require('@aws-sdk/lib-dynamodb');
+const { doccli } = require('./ddbconn');
 
 const rekognition = new RekognitionClient({
   region: 'us-east-1',
@@ -15,9 +15,7 @@ const s3 = new S3Client({
   region: 'us-east-1',
 });
 
-const ddb = new DynamoDBClient({
-  region: 'us-east-1',
-});
+const CAM_TABLE = process.env.CAM_TABLE;
 
 module.exports.handler = async (event) => {
   try {
@@ -70,22 +68,15 @@ module.exports.handler = async (event) => {
 
     const url = `https://${bucket}.s3.us-east-1.amazonaws.com/${key}`;
 
-    await ddb.send(
-      new PutItemCommand({
-        TableName: 'trailcam-images',
+    await doccli.send(
+      new PutCommand({
+        TableName: CAM_TABLE,
         Item: {
-          key: {
-            S: key,
-          },
-          hasAnimal: {
-            BOOL: hasAnimal,
-          },
-          labels: {
-            S: JSON.stringify(labels),
-          },
-          createdAt: {
-            N: Date.now().toString(),
-          },
+          key,
+          url,
+          hasAnimal,
+          labels,
+          createdAt: Date.now(),
         },
       }),
     );

@@ -1,0 +1,17 @@
+@if (this.modalService.showLogin()) {
+<div class="modal-backdrop" (click)="closeLogin()">
+  <div class="login-modal" (click)="$event.stopPropagation()">
+
+    <h2 class="login-heading">Sign in</h2>
+
+    <input type="email" placeholder="Email" [(ngModel)]="email" />
+
+    <input type="password" placeholder="Password" [(ngModel)]="password" />
+
+    <button (click)="login()">
+      Login
+    </button>
+
+  </div>
+</div>
+}

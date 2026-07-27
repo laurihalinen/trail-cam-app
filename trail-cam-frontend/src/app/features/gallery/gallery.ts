@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ImageService } from '../../services/image.service';
 import { ImageStore } from '../../stores/image.store';
-
+import { ModalService } from '../../services/modal.service';
 @Component({
   standalone: true,
   selector: 'app-gallery',
@@ -10,7 +10,7 @@ import { ImageStore } from '../../stores/image.store';
 })
 export class GalleryComponent {
   private imageService = inject(ImageService);
-
+  constructor(public modalService: ModalService) {}
   imageStore = inject(ImageStore);
 
   selectedImage: any = null;
@@ -49,5 +49,9 @@ export class GalleryComponent {
       hour: '2-digit',
       minute: '2-digit',
     });
+  }
+
+  openLogin() {
+    this.modalService.openLogin();
   }
 }
