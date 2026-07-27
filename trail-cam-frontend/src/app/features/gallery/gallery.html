@@ -1,7 +1,13 @@
 <div class="container py-3">
   <div class="content">
 
-    <h2 class="mb-3">Trail Cam Feed</h2>
+    <div class="header">
+      <h2>Trail Cam Feed</h2>
+
+      <button class="login-btn" (click)="modalService.openLogin()">
+        Sign in
+      </button>
+    </div>
     <div class="toolbar">
 
       <!-- FILTER BUTTON GROUP -->
