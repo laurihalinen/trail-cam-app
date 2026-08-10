@@ -19,4 +19,13 @@ export class LoginService {
       password,
     });
   }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    console.log(this.isLoggedIn());
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
 }

@@ -3,10 +3,19 @@
 
     <div class="header">
       <h2>Trail Cam Feed</h2>
+      <div class="log-buttons">
 
-      <button class="login-btn" (click)="modalService.openLogin()">
-        Sign in
-      </button>
+        @if (loginService.isLoggedIn()) {
+        <button class="login-btn" (click)="logout()">
+          Log Out
+        </button>
+        } @else {
+        <button class="login-btn" (click)="modalService.openLogin()">
+          Log In
+        </button>
+        }
+
+      </div>
     </div>
     <div class="toolbar">
 
@@ -36,9 +45,34 @@
 
     </div>
   </div>
+  @if (loginService.isLoggedIn()) {
+  @if (hasStatistics) {
+
+  <div class="statistics-list">
+
+    @for (
+    stat of statisticsService.animalStatistics() | keyvalue;
+    track stat.key
+    ) {
+
+    <div class="stat-item">
+      <span>{{ stat.key }}</span>
+      <strong>{{ stat.value }}</strong>
+    </div>
+
+    }
+
+  </div>
+
+  } @else {
+
+  <p class="no-statistics">
+    No animals detected.
+  </p>
+
+  }
   <!-- FIXED GRID -->
   <div class="grid">
-
     @for (image of imageStore.filteredImages(); track image.key) {
 
     <div class="grid-item" (click)="open(image)">
@@ -57,7 +91,18 @@
 
     }
 
+
   </div>
+  }
+  @else {
+
+  <div class="login-required">
+    <p>You must log in to view the images.</p>
+
+  </div>
+
+  }
+
 
   <!-- MODAL -->
   @if (selectedImage) {

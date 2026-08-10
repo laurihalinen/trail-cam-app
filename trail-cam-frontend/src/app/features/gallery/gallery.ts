@@ -2,17 +2,24 @@ import { Component, inject } from '@angular/core';
 import { ImageService } from '../../services/image.service';
 import { ImageStore } from '../../stores/image.store';
 import { ModalService } from '../../services/modal.service';
+import { LoginService } from '../../services/login.service';
+import { StatisticsService } from '../../services/stat.service';
+import { KeyValuePipe } from '@angular/common';
 @Component({
   standalone: true,
   selector: 'app-gallery',
   templateUrl: './gallery.html',
   styleUrls: ['./gallery.css'],
+  imports: [KeyValuePipe],
 })
 export class GalleryComponent {
   private imageService = inject(ImageService);
-  constructor(public modalService: ModalService) {}
+  public statisticsService = inject(StatisticsService);
+  constructor(
+    public modalService: ModalService,
+    public loginService: LoginService,
+  ) {}
   imageStore = inject(ImageStore);
-
   selectedImage: any = null;
 
   ngOnInit() {
@@ -53,5 +60,12 @@ export class GalleryComponent {
 
   openLogin() {
     this.modalService.openLogin();
+  }
+  logout() {
+    this.loginService.logout();
+  }
+
+  get hasStatistics(): boolean {
+    return Object.keys(this.statisticsService.animalStatistics()).length > 0;
   }
 }
