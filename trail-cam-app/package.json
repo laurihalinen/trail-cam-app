@@ -6,7 +6,8 @@
     "@aws-sdk/client-s3": "^3.1075.0",
     "@aws-sdk/s3-request-presigner": "^3.1076.0",
     "bootstrap": "^5.3.8",
-    "busboy": "^1.6.0"
+    "busboy": "^1.6.0",
+    "googleapis": "^173.0.0"
   },
   "devDependencies": {
     "serverless-prune-plugin": "^2.1.0"

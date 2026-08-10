@@ -4,7 +4,7 @@ org: jamk1
 app: trail-cam
 # "service" is the name of this project. This will also be added to your AWS resource names.
 service: trail-cam-app
-
+useDotenv: true
 provider:
   name: aws
   runtime: nodejs24.x
@@ -14,6 +14,9 @@ provider:
     USER_CLIENT_ID: { Ref: UserClient } # cogniton client id
     CAM_TABLE: ${self:service}-trailcamTable
     MAIN_TABLE: ${self:service}-mainTable
+    CLIENT_ID: ${env:CLIENT_ID}
+    CLIENT_SECRET: ${env:CLIENT_SECRET}
+    REFRESH_TOKEN: ${env:REFRESH_TOKEN}
   iam:
     role:
       statements:
@@ -108,6 +111,11 @@ functions:
           existing: true
           rules:
             - prefix: trailcam/
+  gmailFetcher:
+    handler: functions/gmailFetcher.handler
+    timeout: 60
+    events:
+      - schedule: rate(1 minute)
 resources:
   Resources:
     UserPool: # cognito userpool
