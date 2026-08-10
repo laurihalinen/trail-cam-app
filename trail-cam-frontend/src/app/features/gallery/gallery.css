@@ -331,3 +331,94 @@ body.modal-open {
 .login-btn:hover {
   background: #1b5e20;
 }
+
+.log-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.login-required {
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.login-required p {
+  margin: 0;
+}
+
+/* =========================
+   ANIMAL STATISTICS
+========================= */
+
+.animal-statistics {
+  margin: 20px 0 40px 0;
+
+  padding: 16px;
+  border-radius: 14px;
+
+  background: linear-gradient(135deg, var(--purple), var(--panel));
+  border: 1px solid var(--border);
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.animal-statistics h3 {
+  margin: 0 0 14px;
+
+  color: var(--text);
+
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.statistics-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 12px 14px;
+
+  background: var(--panel);
+  border: 1px solid var(--border);
+
+  border-radius: 10px;
+
+  color: var(--text);
+
+  transition:
+    transform 0.15s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--greyblue);
+  background: var(--panel-2);
+}
+
+.stat-item span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.stat-item strong {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.no-statistics {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
